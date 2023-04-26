@@ -1,4 +1,4 @@
-import React from "react";
+import {useState} from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -7,16 +7,16 @@ import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+    useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(undefined);
+    useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard(undefined);
+    setSelectedCard(null);
   };
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -37,6 +37,7 @@ function App() {
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
         isClose={closeAllPopups}
+        buttonName="Сохранить"
       >
         <input
           id="input-name"
@@ -60,15 +61,13 @@ function App() {
           required
         />
         <span id="input-description-error" className="popup__error"></span>
-        <button className="button form__submit-button" type="submit">
-          Сохранить
-        </button>
       </PopupWithForm>
       <PopupWithForm
         name="add-card"
         title="Новое место"
         isOpen={isAddPlacePopupOpen}
         isClose={closeAllPopups}
+        buttonName="Создать"
       >
         <input
           id="input-card-name"
@@ -90,22 +89,18 @@ function App() {
           required
         />
         <span id="input-card-link-error" className="popup__error"></span>
-        <button
-          className="button form__submit-button form__submit-button_disabled"
-          type="submit"
-          disabled
-        >
-          Создать
-        </button>
       </PopupWithForm>
-      <PopupWithForm name="delete-card" title="Вы уверены?">
-        <button className="button popup__submit-button">Да</button>
-      </PopupWithForm>
+      <PopupWithForm
+        name="delete-card"
+        title="Вы уверены?"
+        buttonName="Да"
+      ></PopupWithForm>
       <PopupWithForm
         name="edit-avatar"
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
         isClose={closeAllPopups}
+        buttonName="Сохранить"
       >
         <input
           id="input-avatar-link"
@@ -116,13 +111,6 @@ function App() {
           required
         />
         <span id="input-avatar-link-error" className="popup__error"></span>
-        <button
-          className="button form__submit-button form__submit-button_disabled"
-          type="submit"
-          disabled
-        >
-          Сохранить
-        </button>
       </PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
