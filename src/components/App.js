@@ -37,7 +37,6 @@ function App() {
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
         isClose={closeAllPopups}
-        buttonName="Сохранить"
       >
         <input
           id="input-name"
@@ -100,7 +99,6 @@ function App() {
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
         isClose={closeAllPopups}
-        buttonName="Сохранить"
       >
         <input
           id="input-avatar-link"

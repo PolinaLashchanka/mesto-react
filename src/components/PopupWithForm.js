@@ -22,7 +22,7 @@ function PopupWithForm(props) {
           type="submit"
           disabled
         >
-          {props.buttonName}
+          {props.buttonName || 'Сохранить'}
         </button>
         </form>
         <button
