@@ -14,6 +14,12 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  const [isEditProfilePopupLoading, setIsEditProfilePopupLoading] = useState(false);
+  const [isAddPlacePopupLoading, setIsAddPlacePopupLoading] = useState(false);
+  const [isEditAvatarPopupLoading, setIsEditAvatarPopupLoading] = useState(false);
+
+
   const [selectedCard, setSelectedCard] = useState(null);
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
@@ -59,31 +65,37 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
+    setIsEditProfilePopupLoading(true);
     api
       .editProfile({ name, about })
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
+        setIsEditProfilePopupLoading(false);
       })
       .catch((err) => console.log(err));
   }
 
   function handleUpdateAvatar(avatar) {
+    setIsEditAvatarPopupLoading(true);
     api
       .editAvatar(avatar)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
+        setIsEditAvatarPopupLoading(false);
       })
       .catch((err) => console.log(err));
   }
 
   function handleAddCard({ name, link }) {
+    setIsAddPlacePopupLoading(true);
     api
       .addNewCard({ name, link })
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
+        setIsAddPlacePopupLoading(false);
       })
       .catch((err) => console.log(err));
   }
@@ -106,9 +118,11 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isEditProfilePopupLoading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
+          isLoading={isAddPlacePopupLoading}
           onClose={closeAllPopups}
           onAddPlace={handleAddCard}
         />
@@ -121,6 +135,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isEditAvatarPopupLoading}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
