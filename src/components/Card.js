@@ -1,8 +1,23 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(props) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const isOwn = props.owner._id === currentUser._id;
+  const isLiked = props.likes.some((i) => i._id === currentUser._id);
+  const cardLikeButtonClassName = `button photo-grid__heart-button ${
+    isLiked && "photo-grid__heart-button_active"
+  }`;
   function handleClick() {
     props.onCardClick(props);
+  }
+
+  function handleLikeClick() {
+    props.onCardLike(props);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props);
   }
 
   return (
@@ -13,18 +28,22 @@ function Card(props) {
         alt="#"
         onClick={handleClick}
       />
-      <button
-        className="button photo-grid__card_delete-button"
-        type="button"
-        aria-label="Удалить"
-      ></button>
+      {isOwn && (
+        <button
+          className="button photo-grid__card_delete-button"
+          type="button"
+          aria-label="Удалить"
+          onClick={handleDeleteClick}
+        ></button>
+      )}
       <div className="photo-grid__caption">
         <h2 className="photo-grid__text">{props.name}</h2>
         <div className="photo-grid__heart-section">
           <button
-            className="button photo-grid__heart-button"
+            className={cardLikeButtonClassName}
             type="button"
             aria-label="Лайк"
+            onClick={handleLikeClick}
           ></button>
           <h5 className="photo-grid__heart-count">{props.likes.length}</h5>
         </div>
