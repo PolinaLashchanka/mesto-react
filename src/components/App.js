@@ -21,9 +21,10 @@ function App() {
     useState(false);
   const [isDeleteCardPopupLoading, setIsDeleteCardPopupLoading] =
     useState(false);
-
   const [selectedCard, setSelectedCard] = useState(null);
   const [deletedCard, setDeletedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -38,9 +39,6 @@ function App() {
   const handleDeleteClick = (card) => {
     setDeletedCard(card);
   };
-
-  const [currentUser, setCurrentUser] = useState({});
-  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     Promise.all([api.getInitialCards(), api.getUserInfo()])
@@ -139,12 +137,9 @@ function App() {
           onAddPlace={handleAddCard}
         />
         <DeleteCardPopup
-          title="Вы уверены?"
-          buttonName="Да"
           isOpen={deletedCard !== null}
           onClose={closeAllPopups}
           isLoading={isDeleteCardPopupLoading}
-          name="delete-card"
           onSubmit={handleDeleteSubmit}
         />
         <EditAvatarPopup
